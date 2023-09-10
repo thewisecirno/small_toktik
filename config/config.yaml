@@ -1,0 +1,25 @@
+#mysql基本配置
+mysql:
+  user: root
+  password: qq31415926535--
+  ip: 47.115.217.189
+  port: 3306
+  dbname: tiktok
+
+#redis基本配置
+redis:
+  password: qq31415926535--
+  ip: 47.115.217.189
+  port: 6379
+  db: 0
+
+
+#视频存储路径
+save_path:
+  dst: ./static
+  dst_name: static
+
+#本机基础配置
+local_config:
+  wlan_ip:  192.168.1.106
+  port: 8080
