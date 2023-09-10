@@ -2,6 +2,7 @@ package models
 
 import (
 	"SmallDouyin/config"
+	"log"
 	"strconv"
 )
 
@@ -27,17 +28,39 @@ func RemoveRelation(userInfoId, followId int64) {
 func GetUserFollowId(userId int64) []string {
 	var userFollowId []string
 	var userRelations []*UserRelations
-	config.DB.Where("follow_id = ?", userId).Find(&userRelations)
+	config.DB.Model(&UserRelations{}).Where("follow_id = ?", userId).Find(&userRelations)
+	log.Println("userRelations", userRelations)
 	for _, v := range userRelations {
 		followId := strconv.FormatInt(v.UserInfoId, 10)
 		userFollowId = append(userFollowId, followId)
 	}
+	log.Println("user follow id", userFollowId)
 	return userFollowId
 }
 
 func GetUserFollowList(userId int64) []*UserInfo {
 	var userFollowList []*UserInfo
 	userFollowIdList := GetUserFollowId(userId)
-	config.DB.Where("user_info_id in ?", userFollowIdList).Find(&userFollowList)
+	config.DB.Where("id in ?", userFollowIdList).Find(&userFollowList)
+	return userFollowList
+}
+
+func GetUserFollowerId(userId int64) []string {
+	var userFollowId []string
+	var userRelations []*UserRelations
+	config.DB.Model(&UserRelations{}).Where("user_info_id = ?", userId).Find(&userRelations)
+	log.Println("userRelations", userRelations)
+	for _, v := range userRelations {
+		followId := strconv.FormatInt(v.UserInfoId, 10)
+		userFollowId = append(userFollowId, followId)
+	}
+	log.Println("user follower id", userFollowId)
+	return userFollowId
+}
+
+func GetUserFollowerList(userId int64) []*UserInfo {
+	var userFollowList []*UserInfo
+	userFollowIdList := GetUserFollowerId(userId)
+	config.DB.Where("id in ?", userFollowIdList).Find(&userFollowList)
 	return userFollowList
 }

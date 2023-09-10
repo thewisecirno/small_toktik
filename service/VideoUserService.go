@@ -63,13 +63,12 @@ func PublishAction(c *gin.Context) {
 			Title:      title,
 		}
 		models.CreateVideo(PublishVideo)
-
+		log.Printf("%+v", PublishVideo.Author)
 		if err != nil {
 			log.Println("save file error", err)
 			responseVideoFailed(c, "publish failed")
 			return
 		}
-
 		responseVideoSuccessful(c, "publish successfully")
 	}
 }

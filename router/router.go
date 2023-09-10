@@ -2,6 +2,7 @@ package router
 
 import (
 	"SmallDouyin/config"
+	"SmallDouyin/middleware"
 	"SmallDouyin/service"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -19,22 +20,24 @@ func InitRouter() *gin.Engine {
 		gr.POST("/user/login/", service.UserLogin)
 		gr.GET("/user/", service.GetUserInfo)
 
-		gr.POST("/publish/action/", service.PublishAction)
-		gr.GET("/publish/list/", service.UserPublishList)
+		gr.POST("/publish/action/", middleware.JwtMiddleware(), service.PublishAction)
+		gr.GET("/publish/list/", middleware.JwtMiddleware(), service.UserPublishList)
 
-		gr.POST("/favorite/action/", service.UserFavoriteAction)
-		gr.GET("/favorite/list/", service.UserFavoriteList)
+		gr.POST("/favorite/action/", middleware.JwtMiddleware(), service.UserFavoriteAction)
+		gr.GET("/favorite/list/", middleware.JwtMiddleware(), service.UserFavoriteList)
 
-		gr.POST("/comment/action/", service.UserCommentAction)
-		gr.GET("/comment/list/", service.GetCommentList)
+		gr.POST("/comment/action/", middleware.JwtMiddleware(), service.UserCommentAction)
+		gr.GET("/comment/list/", middleware.JwtMiddleware(), service.GetCommentList)
 
-		gr.POST("/relation/action/", service.UserRelationAction)
-		gr.POST("/relation/follow/list/", service.UserRelationFollowList)
-		gr.POST("/relation/follower/list/", nil)
-		gr.POST("/relation/friend/list/", nil)
+		gr.POST("/relation/action/", middleware.JwtMiddleware(), service.UserRelationAction)
+		gr.GET("/relation/follow/list/", middleware.JwtMiddleware(), service.UserRelationFollowList)
+		gr.GET("/relation/follower/list/", middleware.JwtMiddleware(), service.UserRelationFollowerList)
+
+		//后面的东西前端都没有实现，那我也没办法了
+		gr.GET("/relation/friend/list/", nil)
 
 		gr.POST("/message/chat/", nil)
-		gr.POST("/message/action/", nil)
+		gr.GET("/message/action/", nil)
 	}
 	return r
 }

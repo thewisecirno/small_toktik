@@ -2,6 +2,7 @@ package models
 
 import (
 	"SmallDouyin/config"
+	"log"
 )
 
 /*
@@ -63,6 +64,7 @@ func CreateUserInfo(login UserLogin) int64 {
 func FindUserInfoById(userId int64) UserInfo {
 	userInfo := UserInfo{}
 	config.DB.Where("id = ?", userId).First(&userInfo)
+	log.Println(userInfo)
 	return userInfo
 }
 

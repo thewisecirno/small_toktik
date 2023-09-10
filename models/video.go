@@ -61,6 +61,10 @@ func GetVideoList(latestTime time.Time) []*Video {
 		Order("created_at asc").
 		Limit(maxLimit).
 		Find(&videoFeed)
+	for _, v := range videoFeed {
+		author := FindUserInfoById(v.UserInfoId)
+		v.Author = author
+	}
 	return videoFeed
 }
 
@@ -72,6 +76,10 @@ func GetVideoListWithoutSelf(latestTime time.Time, userId int64) []*Video {
 		Limit(maxLimit).
 		Find(&videoFeed)
 	log.Printf("%+v", videoFeed)
+	for _, v := range videoFeed {
+		author := FindUserInfoById(v.UserInfoId)
+		v.Author = author
+	}
 	return videoFeed
 }
 

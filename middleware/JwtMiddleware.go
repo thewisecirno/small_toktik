@@ -27,7 +27,7 @@ func JwtMiddleware() func(c *gin.Context) {
 			return
 		}
 
-		if parseToken.ExpiresAt > time.Now().Unix() {
+		if parseToken.ExpiresAt < time.Now().Unix() {
 			responseToken(c, "token过期")
 			c.Abort()
 			return

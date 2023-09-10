@@ -66,6 +66,7 @@ func UserLogin(c *gin.Context) {
 			return
 		}
 		token, err := middleware.GetToken(username, password, userLogin.UserInfoId)
+
 		if err != nil {
 			log.Println(err)
 			responseUserBasicFailed(c, "登陆成功，但是token生成失败")
